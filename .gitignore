@@ -1,0 +1,37 @@
+# Log files
+vpn_log.txt
+*.log
+
+# Windows system files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Temporary files
+*.tmp
+*.temp
+~*
+
+# Backup files
+*.bak
+*.backup
+
+# PowerShell specific
+*.ps1~
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Private configuration (if any)
+*.private.ps1
+secrets/
+.env
+
+# User-specific adapter names (if you create separate config files)
+config.local.ps1
+

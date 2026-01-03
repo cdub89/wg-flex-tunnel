@@ -1,0 +1,99 @@
+# WireGuard Flex Tunnel - Custom Cursor Rules
+
+## Project Overview
+This project manages WireGuard VPN tunnel with Internet Connection Sharing (ICS) on Windows 11. It automates enabling/disabling ICS between network adapters to share VPN connection with other devices.
+
+## Core Components
+- **WireGuard-ICS.ps1**: Main script for enabling/disabling ICS on WireGuard tunnel
+- **VPN-HealthCheck.ps1**: Diagnostic tool for checking registry, services, and ICS state
+- **reset.ps1**: Network stack reset utility
+- **VPN_Fix.reg**: Registry fixes for WireGuard and ICS persistence
+
+## Coding Standards
+
+### PowerShell Guidelines
+- Always use **explicit parameter types** with `[string]`, `[int]`, etc.
+- Use **PascalCase** for function names (e.g., `Write-Log`)
+- Use **camelCase** for variable names (e.g., `$publicAdapterName`)
+- Always include **error handling** with `try/catch` blocks
+- Use `-ErrorAction SilentlyContinue` when checking optional components
+- Include **logging** for all critical operations using `Write-Log` function
+
+### Error Handling Pattern
+```powershell
+try {
+    # Critical operations here
+} catch {
+    Write-Log "CRITICAL ERROR: $($_.Exception.Message)"
+}
+```
+
+### Network Adapter References
+- **Public Adapter**: `$publicAdapterName = "WG-Flex"` (WireGuard tunnel)
+- **Private Adapter**: `$privateAdapterName = "Morconi"` (shared adapter)
+- Always document that users need to verify adapter names in `ncpa.cpl`
+
+### Service Management
+Essential services for this project:
+- **BFE** (Base Filtering Engine) - Required for WireGuard
+- **SharedAccess** (ICS) - Manages Internet Connection Sharing
+- **nsi** - Network Store Interface
+- **NetSetupSvc** - Network Setup Service
+- **wireguard** - WireGuard tunnel service
+
+Always check service status before operations.
+
+### Logging Standards
+- **Location**: `C:\Users\chris\vpn_log.txt`
+- **Format**: `yyyy-MM-dd HH:mm:ss - Message`
+- **Log levels**: Use prefixes like "SUCCESS:", "ERROR:", "CRITICAL ERROR:", "NOTICE:"
+- Always log start and completion of major operations
+
+### ICS (Internet Connection Sharing) Management
+- Use COM object: `New-Object -ComObject HNetCfg.HNetShare`
+- **Public connection** (sharing from): `EnableSharing(0)`
+- **Private connection** (sharing to): `EnableSharing(1)`
+- Always wait 10 seconds after network configuration changes for stack to settle
+
+### Registry Keys
+Important registry settings:
+- `HKLM:\SOFTWARE\WireGuard\DangerousScriptExecution` = 1 (enables PostUp/PostDown scripts)
+- `HKLM:\SYSTEM\CurrentControlSet\Services\PolicyAgent\AssumeUDPEncapsulationContextOnSendRule` = 2
+- `HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedAccess\EnableRebootPersistConnection` = 0 (disable ICS persistence)
+
+### Best Practices
+1. **Always require Administrator privileges** for scripts that modify network settings
+2. **Reset private adapter to DHCP** before enabling ICS to prevent IP conflicts
+3. **Include timing delays** when services or network stack need to settle
+4. **Check adapter existence** before attempting ICS operations
+5. **Provide helpful error messages** indicating which adapter wasn't found
+6. **Use `-Confirm:$false`** for automated IP address removal operations
+7. **Stop SharedAccess service** when disabling ICS completely
+
+### Testing & Diagnostics
+- Include health check scripts that verify:
+  - Registry settings are correct
+  - Required services are running
+  - ICS is active when expected
+- Use color-coded console output: Green (OK), Red (FAIL), Yellow (NOTICE), Cyan (INFO)
+
+### Documentation
+- Add inline comments for complex COM object operations
+- Document wait times and why they're necessary
+- Include adapter name verification instructions
+- Explain the purpose of registry modifications
+
+## Windows-Specific Considerations
+- This is a **Windows 11** project
+- Uses PowerShell **COM objects** for ICS management
+- Requires elevation (Run as Administrator)
+- Network stack operations may require system restarts
+- ICS persistence should be disabled to allow script control
+
+## When Making Changes
+- Test with both Enable and Disable actions
+- Verify logging output is clear and complete
+- Check that services are properly managed
+- Ensure timing delays are appropriate for system stability
+- Validate that adapter names are configurable
+

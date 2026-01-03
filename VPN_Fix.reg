@@ -1,0 +1,13 @@
+Windows Registry Editor Version 5.00
+
+; Enable WireGuard PostUp/PostDown scripts
+[HKEY_LOCAL_MACHINE\SOFTWARE\WireGuard]
+"DangerousScriptExecution"=dword:00000001
+
+; Allow VPN NAT Traversal (Critical for ICS and L2TP/WireGuard behind routers)
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PolicyAgent]
+"AssumeUDPEncapsulationContextOnSendRule"=dword:00000002
+
+; Ensure ICS settings persist after reboots and idle time
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedAccess]
+"EnableRebootPersistConnection"=dword:00000001
