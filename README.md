@@ -59,7 +59,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ### Step 1: Apply Registry Settings
 
-1. **Double-click** `VPN_Fix.reg` to apply required registry settings
+1. **Double-click** `Win11_VPN-Reg-Fix.reg` to apply required registry settings
 2. Click **Yes** when prompted by UAC
 3. **Restart your computer** for changes to take effect
 
@@ -85,12 +85,12 @@ $privateAdapterName = "Morconi"   # Your adapter to share connection to
 
 By default, logs are saved to:
 ```
-C:\Users\chris\wg-flex-tunnel\vpn_log.txt
+C:\Morconi\wg-flex-tunnel\wg_vpn_tunnel.log
 ```
 
 To change the log location, edit line 5 in `WireGuard-ICS.ps1`:
 ```powershell
-$logFile = "C:\Your\Custom\Path\vpn_log.txt"
+$logFile = "C:\Your\Custom\Path\wg_vpn_tunnel.log"
 ```
 
 ---
@@ -109,10 +109,10 @@ Address = YOUR_VPN_IP_HERE
 DNS = YOUR_DNS_HERE
 
 # PostUp: Enable ICS when tunnel connects
-PostUp = powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Enable
+PostUp = powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Enable
 
 # PostDown: Disable ICS when tunnel disconnects
-PostDown = powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Disable
+PostDown = powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Disable
 
 [Peer]
 PublicKey = SERVER_PUBLIC_KEY_HERE
@@ -126,6 +126,8 @@ AllowedIPs = 0.0.0.0/0, ::/0
 - Update the path if you installed the scripts elsewhere
 - `-ExecutionPolicy Bypass` allows the script to run without modifying system-wide PowerShell policies
 - The script will be executed automatically by WireGuard with elevated privileges
+- Uncheck the box for "Block untunneled traffic (kill-switch).  When enabled, it forces all traffic through the VPN, preventing DNS leaks, but restricts access to local LAN devices.
+
 
 ---
 
@@ -151,10 +153,10 @@ You can also run the script manually:
 
 ```powershell
 # Enable ICS
-powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Enable
+powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Enable
 
 # Disable ICS
-powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Disable
+powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Disable
 ```
 
 **When to use manual mode:**
@@ -171,7 +173,7 @@ powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\Wire
 Run `VPN-HealthCheck.ps1` to verify your system is configured correctly:
 
 ```powershell
-powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\VPN-HealthCheck.ps1"
+powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\VPN-HealthCheck.ps1"
 ```
 
 **It checks:**
@@ -189,7 +191,7 @@ powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\VPN-
 View real-time logs to monitor script operations:
 
 ```powershell
-Get-Content "C:\Users\chris\wg-flex-tunnel\vpn_log.txt" -Tail 20 -Wait
+Get-Content "C:\Morconi\wg-flex-tunnel\wg_vpn_tunnel.log" -Tail 20 -Wait
 ```
 
 **Log entry format:**
@@ -199,7 +201,7 @@ Get-Content "C:\Users\chris\wg-flex-tunnel\vpn_log.txt" -Tail 20 -Wait
 2026-01-03 14:32:25 - Waiting 10 seconds for network stack to settle...
 2026-01-03 14:32:35 - Attempting to Enable ICS...
 2026-01-03 14:32:36 - SUCCESS: ICS enabled from WG-Flex to Morconi.
-2026-01-03 14:32:36 - COMPETE: WireGuard-ICS Post Up Process Complete.
+2026-01-03 14:32:36 - COMPLETE: WireGuard-ICS Post Up Process Complete.
 ```
 
 ---
@@ -244,7 +246,7 @@ Get-Content "C:\Users\chris\wg-flex-tunnel\vpn_log.txt" -Tail 20 -Wait
 **Solutions:**
 1. Manually run disable command:
    ```powershell
-   powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Disable
+   powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Disable
    ```
 
 2. Verify registry setting (should be 0):
@@ -252,7 +254,7 @@ Get-Content "C:\Users\chris\wg-flex-tunnel\vpn_log.txt" -Tail 20 -Wait
    Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedAccess" -Name EnableRebootPersistConnection
    ```
 
-3. If value is 1, re-apply `VPN_Fix.reg` and reboot
+3. If value is 1, re-apply `Win11_VPN-Reg-Fix.reg` and reboot
 
 ### Issue: Services Won't Start
 
@@ -266,7 +268,7 @@ Get-Content "C:\Users\chris\wg-flex-tunnel\vpn_log.txt" -Tail 20 -Wait
 
 2. Run full network reset:
    ```powershell
-   powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\reset.ps1"
+   powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\reset.ps1"
    ```
    **⚠️ Requires reboot**
 
@@ -289,15 +291,15 @@ Get-Content "C:\Users\chris\wg-flex-tunnel\vpn_log.txt" -Tail 20 -Wait
 
 3. Test script manually to verify it works:
    ```powershell
-   powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Enable
+   powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\WireGuard-ICS.ps1" -Action Enable
    ```
 
 4. Ensure paths in WireGuard config use double backslashes or forward slashes:
    ```ini
    # Good:
-   PostUp = powershell.exe -ExecutionPolicy Bypass -File "C:\\Users\\chris\\wg-flex-tunnel\\WireGuard-ICS.ps1" -Action Enable
+   PostUp = powershell.exe -ExecutionPolicy Bypass -File "C:\\Morconi\\wg-flex-tunnel\\WireGuard-ICS.ps1" -Action Enable
    # Or:
-   PostUp = powershell.exe -ExecutionPolicy Bypass -File "C:/Users/chris/wg-flex-tunnel/WireGuard-ICS.ps1" -Action Enable
+   PostUp = powershell.exe -ExecutionPolicy Bypass -File "C:/Morconi/wg-flex-tunnel/WireGuard-ICS.ps1" -Action Enable
    ```
 
 ---
@@ -332,7 +334,7 @@ PostUp = powershell.exe -ExecutionPolicy Bypass -File "C:\path\script2.ps1" -Act
 If ICS becomes completely broken, use `reset.ps1`:
 
 ```powershell
-powershell.exe -ExecutionPolicy Bypass -File "C:\Users\chris\wg-flex-tunnel\reset.ps1"
+powershell.exe -ExecutionPolicy Bypass -File "C:\Morconi\wg-flex-tunnel\reset.ps1"
 ```
 
 **What it does:**
@@ -403,9 +405,9 @@ ICS creates a local DHCP server and NAT:
 |------|---------|---------------|
 | `WireGuard-ICS.ps1` | Main ICS automation script | ✅ Yes |
 | `VPN-HealthCheck.ps1` | System health diagnostic | ✅ Yes |
-| `VPN_Fix.reg` | Registry configuration | ✅ Yes |
+| `Win11_VPN-Reg-Fix.reg` | Registry configuration | ✅ Yes |
 | `reset.ps1` | Network stack reset utility | ✅ Yes |
-| `vpn_log.txt` | Operation log file | Auto-created |
+| `wg_vpn_tunnel.log` | Operation log file | Auto-created |
 | `README.md` | This documentation | - |
 
 ---
@@ -446,7 +448,7 @@ If you make improvements to these scripts:
 ## Support
 
 For issues or questions:
-1. Check `vpn_log.txt` for detailed error messages
+1. Check `wg_vpn_tunnel.log` for detailed error messages
 2. Run `VPN-HealthCheck.ps1` to diagnose configuration issues
 3. Review Troubleshooting section above
 4. Check WireGuard logs in WireGuard GUI

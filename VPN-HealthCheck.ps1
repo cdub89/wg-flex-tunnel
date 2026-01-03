@@ -1,6 +1,7 @@
 Write-Host "--- Windows 11 VPN & ICS Health Check ---" -ForegroundColor Cyan
 
-# 1. Check Registry Keys.   In my set up SharedAccess should be 0 (disabled persistance) based on my testing.
+# Check Registry Keys
+# Note: In this setup SharedAccess should be 0 (disabled persistence)
 $regPaths = @(
     "HKLM:\SOFTWARE\WireGuard|DangerousScriptExecution|1",
     "HKLM:\SYSTEM\CurrentControlSet\Services\PolicyAgent|AssumeUDPEncapsulationContextOnSendRule|2",

@@ -8,6 +8,8 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PolicyAgent]
 "AssumeUDPEncapsulationContextOnSendRule"=dword:00000002
 
-; Ensure ICS settings persist after reboots and idle time
+; Disable ICS persistence to allow script control
+; Set to 0 to prevent ICS from persisting across reboots
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedAccess]
-"EnableRebootPersistConnection"=dword:00000001
+"EnableRebootPersistConnection"=dword:00000000
+

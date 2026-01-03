@@ -44,7 +44,7 @@ Essential services for this project:
 Always check service status before operations.
 
 ### Logging Standards
-- **Location**: `C:\Users\chris\vpn_log.txt`
+- **Location**: `C:\Users\chris\wg-flex-tunnel\wg_vpn_tunnel.log`
 - **Format**: `yyyy-MM-dd HH:mm:ss - Message`
 - **Log levels**: Use prefixes like "SUCCESS:", "ERROR:", "CRITICAL ERROR:", "NOTICE:"
 - Always log start and completion of major operations
