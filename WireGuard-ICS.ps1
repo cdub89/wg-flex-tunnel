@@ -52,7 +52,7 @@ try {
             $privateConn.EnableSharing(1)
             Write-Log "SUCCESS: ICS enabled from $publicAdapterName to $privateAdapterName."
         } else {
-            Write-Log "ERROR: Could not find adapters. Public Found: $($publicConn -ne $null), Private Found: $($privateConn -ne $null)"
+            Write-Log "ERROR: Could not find adapters. Public Found: $($null -ne $publicConn), Private Found: $($null -ne $privateConn)"
         }
 
         Write-Log "COMPLETE: WireGuard-ICS Post Up Process Complete."
@@ -75,34 +75,4 @@ try {
 } catch {
     Write-Log "CRITICAL ERROR: $($_.Exception.Message)"
 }
-# SIG # Begin signature block
-# MIIFTAYJKoZIhvcNAQcCoIIFPTCCBTkCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
-# gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUYue4QNqDaaQEaOs+Jn/0tIcP
-# i7ugggLyMIIC7jCCAdagAwIBAgIQbdDcjU+gYpxMq6sLh6MSNjANBgkqhkiG9w0B
-# AQsFADAPMQ0wCwYDVQQDDAR3eDd2MB4XDTI2MDEwNDAzNDMzOFoXDTI3MDEwNDA0
-# MDMzOFowDzENMAsGA1UEAwwEd3g3djCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
-# AQoCggEBAKjRvf0yVPhyYt/DtnbcJbUCwU0JkQwrlrLsUjj5ANNh0RDn+MMvJP63
-# WgqzQQDt9vdgJZGgmyySg1RllLcrQon/Fg/EZn4XD8QbDyuJjCD24/pCrWKAw7Uj
-# 1G3SRttISpr0ACYArAd9iKPqdPV244obIxBmi2gGYEd9PlI4xTuPEDoi21YxDWRg
-# kkDjIjL8B9smG8gSSIn1Jnt88jcMgvBdQyv5a60IAUSW3yIjNA+UBHO6LWzYX2Fy
-# +/exF2W7FyKYJCq4hU543ejkr04TtNTxqDWD7uBpiR8YENLyZzs0QI280PR/Gkli
-# ieXdLnUA1M74UGQKbKDXjE5SKFEaajkCAwEAAaNGMEQwDgYDVR0PAQH/BAQDAgeA
-# MBMGA1UdJQQMMAoGCCsGAQUFBwMDMB0GA1UdDgQWBBRCKEJcN2ZazC5GRR/nb1xs
-# Ht0XlDANBgkqhkiG9w0BAQsFAAOCAQEAHmlS4YtVNNStHJIlcYB8U8E505wsDUom
-# 0kHd2kK1zQxMJ4G9dLutPWqmZZlnYYnQErr3yz4AiIs8on12sHVURa//ze8BePKX
-# SIP7X1yw0uQxwYEceSjV+hCQF9FbaY918WCtIxd7AFZAkgWFY8TcqaIio1l30kTO
-# jaGNakpPv/2hXqgdKJsxl5WGle6fH5eJeK414wgQoXgKCvn9GdZ5xHF/RFRjfx/y
-# 6jJgd8Z1zl3BFmLij72cMyp8wIcuyymIMjMq3oekWE+yP3VtaFKb6AN/JASSY0wC
-# yIoShxDVh6s4Zw9d5nS6b+/SmtlgQnfhylVNjN+TfMS9Iqu9jOG6tzGCAcQwggHA
-# AgEBMCMwDzENMAsGA1UEAwwEd3g3dgIQbdDcjU+gYpxMq6sLh6MSNjAJBgUrDgMC
-# GgUAoHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYK
-# KwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG
-# 9w0BCQQxFgQUc/AhdrFt6dWaJR0biWP3R7AWnMowDQYJKoZIhvcNAQEBBQAEggEA
-# ltCkkLq+l8DcW4j+YThSjR2MgsQOc9MuPlhaviLruiQLg98MbkgovqAFgaSNkf5e
-# Et4GLcuOzkcVmH2NiVD2fFlk3mdRsR0DmtWXx9IJgA5aPmILAb1hmH/vkBo5fe2p
-# fXtbFkaIDTC2cpPIKWhq7BsXOFqRav8Agbdd6uPeGIN53Ljj12Cij4li4UXp7dNp
-# GrypLJcXgYHxS6N4NQthUczOiJyF8EjH7wTaTGhCzSpsoyQ/PnH0fBuQZida8Sxf
-# ENy8S2H7XMdqr6sEPf8hD7zFwv0XfxgZ4IvloQ70cAjNJu97h1XdFjw0Bgb9YJk+
-# RpRdWj+oo7OewT+djmxzyg==
-# SIG # End signature block
+

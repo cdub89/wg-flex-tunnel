@@ -52,7 +52,15 @@ Ensure PowerShell can run scripts:
 ```powershell
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
+   Note: You may also need to use the Unblock-File command to get the scripts to run on your local machine.   Depending on the script execution policy most Windows 11 security policies block the execution of files downloaded from the intenet.
 
+   eg:
+
+   Unblock-File .\WireGuard-ICS.ps1
+
+   Important Considerations.  In some cases, you may need to open PowerShell as an administrator to have the necessary permissions.  Only unblock files if you are sure they are from a trusted source and are safe to run.  Unblocking a PowerShell script file (.ps1) allows it to run under the RemoteSigned execution policy, but it does not change the execution policy itself. If your execution policy is highly restrictive (e.g., Restricted), you may need to adjust it temporarily or run the script with a bypass command. 
+
+   
 ---
 
 ## Installation
